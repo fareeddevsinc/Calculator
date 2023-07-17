@@ -5,25 +5,6 @@ const calculateResult = document.getElementById("calculate-result");
 const startBtn = document.getElementById("start-btn");
 let isOn = false;
 let A, B, C, D, E, F, X, Y;
-// startBtn.addEventListener("click", () => {
-//   if (startBtn.textContent && startBtn.textContent.trim() === "ON") {
-//     console.log(startBtn.textContent);
-//     isOn = true;
-//     console.log(isOn);
-//     startBtn.textContent = "OFF";
-//     inputElement.value = "ON";
-//     setTimeout(() => {
-//       inputElement.value = "";
-//     }, 2000);
-//   } else if (startBtn.textContent && startBtn.textContent.trim() === "OFF") {
-//     startBtn.textContent = "ON";
-//     inputElement.value = "OFF";
-//     setTimeout(() => {
-//       inputElement.value = "";
-//     }, 2000);
-//     isOn = false;
-//   }
-// });
 for (let i = 0; i < btn_values.length; i++) {
     btn_values[i].addEventListener("click", function () {
         if (this.textContent !== null) {
@@ -150,6 +131,7 @@ for (let i = 0; i < btn_values.length; i++) {
                 }
                 breakData(inputElement.value);
             }
+            // When A variable is pressed
             else {
                 if (this.textContent.trim() === "A" ||
                     this.textContent.trim() === "B" ||
@@ -159,8 +141,22 @@ for (let i = 0; i < btn_values.length; i++) {
                     this.textContent.trim() === "F" ||
                     this.textContent.trim() === "X" ||
                     this.textContent.trim() === "Y") {
-                    let variable = `->${this.textContent.trim()}`;
-                    console.log("Hello");
+                    let variable;
+                    if ((this.textContent.trim() === "A" && A === undefined) ||
+                        (this.textContent.trim() === "B" && B === undefined) ||
+                        (this.textContent.trim() === "C" && C === undefined) ||
+                        (this.textContent.trim() === "D" && D === undefined) ||
+                        (this.textContent.trim() === "E" && E === undefined) ||
+                        (this.textContent.trim() === "F" && F === undefined) ||
+                        (this.textContent.trim() === "X" && X === undefined) ||
+                        (this.textContent.trim() === "Y" && Y === undefined)) {
+                        variable = `->${this.textContent.trim()}`;
+                    }
+                    else {
+                        variable = this.textContent.trim();
+                    }
+                    console.log(`This is A: ${A}`);
+                    console.log(this.textContent.trim());
                     if (inputElement.value === "") {
                         variable = `${this.textContent.trim()}`;
                     }
@@ -200,8 +196,16 @@ const breakData = (text) => {
                 text.includes("e") ||
                 text.includes("√") ||
                 text.includes("^") ||
-                text.includes("π")) {
-                let analyzedText = analyzeMethod(text);
+                text.includes("π") ||
+                text.includes("A") ||
+                text.includes("B") ||
+                text.includes("C") ||
+                text.includes("D") ||
+                text.includes("E") ||
+                text.includes("F") ||
+                text.includes("X") ||
+                text.includes("Y")) {
+                let analyzedText = addMultiplySign(text);
                 if (analyzedText !== undefined) {
                     result = eval(analyzedText);
                 }
@@ -222,16 +226,6 @@ const breakData = (text) => {
         }
     }
 };
-const analyzeMethod = (text) => {
-    try {
-        text = addMultiplySign(text);
-        return text;
-    }
-    catch (error) {
-        // handle error here
-    }
-    return text;
-};
 const addMultiplySign = (text) => {
     while (text.includes("sin") ||
         text.includes("cos") ||
@@ -239,7 +233,15 @@ const addMultiplySign = (text) => {
         text.includes("π") ||
         text.includes("e") ||
         text.includes("^") ||
-        text.includes("√")) {
+        text.includes("√") ||
+        text.includes("A") ||
+        text.includes("B") ||
+        text.includes("C") ||
+        text.includes("D") ||
+        text.includes("E") ||
+        text.includes("F") ||
+        text.includes("X") ||
+        text.includes("Y")) {
         if (text.includes("sin")) {
             text = replaceTrigFunction(text, "sin", Math.sin);
         }
@@ -277,8 +279,31 @@ const addMultiplySign = (text) => {
             let squareRootText = text.slice(index, numberEndIndex);
             text = text.replace(squareRootText, String(squareRoot.toFixed(4)));
         }
+        if (text.includes("A")) {
+            text = variableMultiplyAdder("A", text);
+        }
+        if (text.includes("B")) {
+            text = variableMultiplyAdder("B", text);
+        }
+        if (text.includes("C")) {
+            text = variableMultiplyAdder("C", text);
+        }
+        if (text.includes("D")) {
+            text = variableMultiplyAdder("D", text);
+        }
+        if (text.includes("E")) {
+            text = variableMultiplyAdder("E", text);
+        }
+        if (text.includes("F")) {
+            text = variableMultiplyAdder("F", text);
+        }
+        if (text.includes("X")) {
+            text = variableMultiplyAdder("X", text);
+        }
+        if (text.includes("Y")) {
+            text = variableMultiplyAdder("Y", text);
+        }
     }
-    console.log(`This is what I get: ${text}`);
     return text;
 };
 function replaceTrigFunction(text, functionName, mathFunction) {
@@ -301,3 +326,9 @@ function replaceTrigFunction(text, functionName, mathFunction) {
     let functionText = text.slice(index, numberEndIndex);
     return text.replace(functionText, result);
 }
+const variableMultiplyAdder = (variable, text) => {
+    let temp = text.indexOf(variable);
+    let newString = text.slice(0, temp) + "*" + text.slice(temp);
+    text = newString;
+    return text;
+};
