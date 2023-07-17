@@ -26,7 +26,6 @@ for (let i = 0; i < btn_values.length; i++) {
         value.pop();
         inputElement.value = value.join("");
       } else if (this.textContent.trim() === "=") {
-        console.log(`this.TextContent: ${this.textContent}`);
         //show variable data
         if (inputElement.value === "A") {
           if (calculateResult !== null) {
@@ -131,7 +130,6 @@ for (let i = 0; i < btn_values.length; i++) {
             inputElement.value = newString;
           }
         }
-        console.log(`value before breakData${inputElement.value}`);
         breakData(inputElement.value);
       }
       // When A variable is pressed
@@ -189,8 +187,6 @@ const breakData = (text: string): void => {
         calculateResult.textContent = String(Math.E.toFixed(4));
       }
     } else {
-      console.log("RIght Direction");
-      console.log(`This is the text ${text}`);
       let result: number = 0;
       if (
         text.includes("sin") ||
@@ -286,7 +282,6 @@ const addMultiplySign = (text: string): string => {
         newString = text.slice(0, index) + num + text.slice(index + 1);
       }
       text = newString.replace("π", "");
-      console.log(`this is e: ${text}`);
     }
     if (text.includes("^")) {
       text = text.replace("^", "**");
@@ -308,7 +303,6 @@ const addMultiplySign = (text: string): string => {
       text = text.replace(squareRootText, String(squareRoot.toFixed(4)));
     }
     if (text.includes("A")) {
-      console.log("Yup Everything Good!");
       text = variableMultiplyAdder("A", text);
     }
     if (text.includes("B")) {
